@@ -6,7 +6,20 @@ const { engine } = require ('express-handlebars');
 const app = express();
 const port = 3000;
 
+const route = require('./routes');
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+// method urlencoded send data from FORM
+// method JSON send data from JAVASCRIPT
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(express.json());
+
+
+
+
 
 app.engine('hbs', engine({
     extname: '.hbs'
@@ -14,14 +27,9 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set("views", path.join(__dirname, 'resources/views'));
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
 
-app.get('/news', (req, res) => {
-    res.render('news');
-});
-
+// Routes init
+route(app);
 
 app.listen(port, () =>
     console.log(`App listening at http://localhost:${port}`),
