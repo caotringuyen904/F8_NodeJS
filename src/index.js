@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const { engine } = require ('express-handlebars');
+const { engine } = require('express-handlebars');
 
 const app = express();
 const port = 3000;
@@ -12,21 +12,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // method urlencoded send data from FORM
 // method JSON send data from JAVASCRIPT
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(
+    express.urlencoded({
+        extended: true,
+    }),
+);
 app.use(express.json());
 
+app.engine(
+    'hbs',
+    engine({
+        extname: '.hbs',
+    }),
+);
 
-
-
-
-app.engine('hbs', engine({
-    extname: '.hbs'
-}));
 app.set('view engine', 'hbs');
-app.set("views", path.join(__dirname, 'resources/views'));
 
+app.set('views', path.join(__dirname, 'resources/views'));
 
 // Routes init
 route(app);
